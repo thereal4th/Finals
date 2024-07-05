@@ -39,11 +39,11 @@
                 ?>
                 <div class = "item-grid">
                     <div class="images">
-                        <a href="buyer_product.php?product_id=<?php echo $product['ID']; ?>" target="_blank"><img src="<?php echo "Images/{$product['FILE']}"?>" class="control-images"></a>
+                        <img src="<?php echo "Images/{$product['FILE']}"?>" class="control-images">
                     </div>
                     <div class="item-details">
                         <p class="title">
-                            <a href="buyer_product.php?product_id=<?php echo $product['ID']; ?>" target = "blank"><?php echo $product['ITEM_DESC']?></a>
+                            <?php echo $product['ITEM_DESC']?>
                         </p>
                         <p class="category">Category: <?php echo $product['CATEGORY']?></p>
                         <p class="gender">For: <?php echo $product['GENDER']?></p>
@@ -58,6 +58,11 @@
                     </div>
                 </div>
                 <?php
+            }
+            ?>
+</div>
+    </body>
+</html>
             }
             ?>
 </div>
