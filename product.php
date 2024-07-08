@@ -141,9 +141,9 @@ if(!isset($_GET['product_id'])){
                             <p class="title">
                                 <a href="product.php?product_id=<?php echo $product['ID']; ?>" target = "blank"><?php echo $product['ITEM_DESC']?></a>
                             </p>
+                            <p class="price">$<?php echo $product['PRICE']?></p>
                             <p class="category"><?php echo $product['CATEGORY']?></p> 
                             <p class="Ptype"><?php echo $product['Ptype']?></p> 
-                            <p class="price">$<?php echo $product['PRICE']?></p>
                         </div>
                     </div>  
                     <?php
