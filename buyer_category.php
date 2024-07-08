@@ -1,38 +1,73 @@
 <?php
 include ('functions.php');
-
-if(!isset($_GET['product_id'])){
+session_start();
+if (!isset($_SESSION['username'])) {
     echo '<html><body>';
-    echo '<div id="countdown">Redirecting you to main page in <span id="time">5</span> seconds. Please access this with product id.</div>';
+    echo '<div id="countdown">5</div>';
+    echo '<div id="message">Please login with a valid account first.</div>';
     echo '<script>
+        var countdownElement = document.getElementById("countdown");
+        var messageElement = document.getElementById("message");
         var countdown = 5;
         var intervalId = setInterval(function() {
             countdown--;
-            document.getElementById("time").textContent = countdown;
+            countdownElement.textContent = countdown;
             if (countdown <= 0) {
                 clearInterval(intervalId);
-                location.href = "no_account.php";
+                window.location.href = "no_account.php";
             }
         }, 1000);
     </script>';
     echo '</body></html>';
-    exit();
+    exit;
 }
 
-$type = urldecode($_GET['type']); // Get the product type from the URL
-$gender = urldecode($_GET['gender']); // Get the gender from the URL
+$type = isset($_GET['type']) ? urldecode($_GET['type']) : null; // Get the product type from the URL
+$gender = isset($_GET['gender']) ? urldecode($_GET['gender']) : null; // Get the gender from the URL
+
+if (!$type || !$gender) {
+    echo '<html><body>';
+    echo '<div id="countdown">5</div>';
+    echo '<div id="message">Access the page through a link.</div>';
+    echo '<script>
+        var countdownElement = document.getElementById("countdown");
+        var messageElement = document.getElementById("message");
+        var countdown = 5;
+        var intervalId = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(intervalId);
+                window.location.href = "buyer.php";
+            }
+        }, 1000);
+    </script>';
+    echo '</body></html>';
+    exit;
+}
+
+if (isset($_POST['logout'])) {
+    // Destroy the session
+    session_destroy();
+
+    // Redirect to login page
+    header('Location: login.php');
+    exit;
+    }
 
 if(isset($_POST['add'])){
-    include_once('database_con.php');
-    //retrieve the ID 
+    include('database_con.php');
+    //retrieve the ITEM ID 
     $ID = $_POST['product_id'];
+    //retrieve the USER_ID
+    $USER_ID = $_SESSION['USER_ID'];
 
-    $query ="INSERT INTO buyer_db (FILE, ITEM_DESC, PRICE, CATEGORY, GENDER, Ptype)
-            SELECT FILE, ITEM_DESC, PRICE, CATEGORY, GENDER, Ptype
+    $query ="INSERT INTO buyer_db (FILE, ITEM_DESC, PRICE, buyer_category, GENDER, Ptype, USER_ID)
+            SELECT FILE, ITEM_DESC, PRICE, buyer_category, GENDER, Ptype, ?
             FROM products
             WHERE ID = ?";
     $stmt = mysqli_prepare($con, $query);
-    mysqli_stmt_bind_param($stmt, 'i', $ID);
+    mysqli_stmt_bind_param($stmt, 'ii',$USER_ID, $ID);
     mysqli_stmt_execute($stmt);
 
     // Handle success or error
@@ -49,11 +84,69 @@ if(isset($_POST['add'])){
 
 <!DOCTYPE html>
 <html>
-    <title>Buyer Side Category</title>
+    <title>Buyer Side buyer_category</title>
     <head>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="buyer-styles.css">
     </head>
     <body>
+    <div class = "header">
+    <div style = "width: 900px;">
+        <p style = "margin-left: 75px; font-size: 25px;margin-top: 30px;color: #465a27; font-weight: bold;font-family: Times;">Online Shopping System<p>
+    </div>
+    <div style = "width: 300px">
+        <a href="cart.php"><button class = "menu-button">CART</button></a>
+        <form method="post">
+            <button name="logout" class="menu-button" onclick="return confirm('Are you sure you want to logout?');">LOGOUT</button>
+        </form>
+    </div>
+    </div>
+    <div class = "subheader">
+    <div style = "padding-right: 600px; display: inline-block;">
+        <p class = "subheading" style = "display: inline-block;">Welcome, <?php echo $_SESSION['username'];?>!</p>
+    </div>  
+    <!-- Trigger the modal with a button -->
+    </div>
+    <div style = "height: 1px; background-color: black;margin-left:230px;width:949.6px;margin-bottom:30px;"></div>
+
+<div class="sidebar-category">
+    <div class = "Home">
+        <a href="buyer.php"><h3>Main</h3></a>
+    </div>
+        <a href=""></a>
+        <h3 class = "sidebar-header">Apparels</h3>
+    <div class="apparels">
+            <div class="male">
+                <h4 class = "sidebar-subheader">Male</h4>
+                <a href="buyer_category.php"><p>Brief</p></a>
+                <a href="buyer_category.php?type=Jackets&gender=male"><p>Jackets</p></a>
+                <a href="buyer_category.php?type=Jeans&gender=male"><p>Jeans</p></a>
+                <a href="buyer_category.php?type=T-Shirt&gender=male"><p>T-shirt</p></a>
+            </div>
+            <div class="female">
+                <h4 class = "sidebar-subheader">Female</h4>
+                <a href="buyer_category.php?type=Blouse&gender=female"><p>Blouse</p></a> 
+                <a href="buyer_category.php?type=Dress&gender=female"><p>Dress</p></a> 
+                <a href="buyer_category.php?type=<?php echo urlencode('Maxi Dresses'); ?>&gender=female"><p>Maxi Dresses</p></a> 
+                <a href="buyer_category.php?type=Cardigans&gender=female"><p>Cardigans</p></a> 
+            </div>
+    </div>
+    <h3 class = "sidebar-header">Accessories</h3>
+    <div class="accessory">
+            <div class="male">
+                <h4 class = "sidebar-subheader">Male</h4>
+                <a href="buyer_category.php?type=Belts&gender=male"><p>Belts</p></a>
+                <a href="buyer_category.php?type=Sunglasses&gender=male"><p>Sunglasses</p></a>
+                <a href="buyer_category.php?type=Watch&gender=male"><p>Watch</p></a>
+            </div>
+            <div class="female">
+                <h4 class = "sidebar-subheader">Female</h4>
+                <a href="buyer_category.php?type=Belts&gender=female"><p>Belts</p></a> 
+                <a href="buyer_category.php?type=Necklace&gender=female"><p>Necklace</p></a>
+                <a href="buyer_category.php?type=Sunglasses&gender=female"><p>Sunglasses</p></a>
+            </div>
+    </div>
+    </div>
+
     <div class="item-details">
     <?php 
     $products = getProductsByTypeAndGender($type, $gender);
@@ -81,47 +174,9 @@ if(isset($_POST['add'])){
             <?php
         }
     } else {
-        echo "There is not Item for this category - ". $type;
+        echo "There is not Item for this CATEGORY - ". $type;
     }
     ?>
-    </div>
-    <div class="categories">
-    <div class = "Home">
-        <a href="seller.php"><h3>Main</h3></a>
-    </div>
-        <a href=""></a>
-    <div class="apparels">
-        <h4>Apparels</h4>
-        <div class="male">
-            <h5>Male</h5>
-            <a href="category.php?type=Brief&gender=male"><p>Brief</p></a>
-            <a href="category.php?type=Jackets&gender=male"><p>Jackets</p></a>
-            <a href="category.php?type=Jeans&gender=male"><p>Jeans</p></a>
-            <a href="category.php?type=T-Shirt&gender=male"><p>T-shirt</p></a>
-        </div>
-        <div class="female">
-            <h5>Female</h5>
-            <a href="category.php?type=Blouse&gender=female"><p>Blouse</p></a> 
-            <a href="category.php?type=Dress&gender=female"><p>Dress</p></a> 
-            <a href="category.php?type=<?php echo urlencode('Maxi Dresses'); ?>&gender=female"><p>Maxi Dresses</p></a> 
-            <a href="category.php?type=Cardigans&gender=female"><p>Cardigans</p></a> 
-        </div>
-    </div>
-    <div class="accessory">
-    <h4>Accessories</h4>
-        <div class="male">
-            <h5>Male</h5>
-            <a href="category.php?type=Belts&gender=male"><p>Belts</p></a>
-            <a href="category.php?type=Sunglasses&gender=male"><p>Sunglasses</p></a>
-            <a href="category.php?type=Watch&gender=male"><p>Watch</p></a>
-        </div>
-        <div class="female">
-            <h5>Female</h5>
-            <a href="category.php?type=Belts&gender=female"><p>Belts</p></a> 
-            <a href="category.php?type=Necklace&gender=female"><p>Necklace</p></a>
-            <a href="category.php?type=Sunglasses&gender=female"><p>Sunglasses</p></a>
-        </div>
-    </div>
     </div>
     </body>
 </html>
