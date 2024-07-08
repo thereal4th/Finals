@@ -79,6 +79,7 @@ if(isset($_POST['add'])){
 
     mysqli_stmt_close($stmt);
     mysqli_close($con);
+    //asdad
 }
 ?>
 
@@ -180,3 +181,4 @@ if(isset($_POST['add'])){
     </div>
     </body>
 </html>
+
