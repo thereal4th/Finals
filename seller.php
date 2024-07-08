@@ -43,7 +43,7 @@
 
 
             $query = "INSERT INTO products(FILE, ITEM_DESC, PRICE, CATEGORY, GENDER, Ptype, MORE_DESC)
-                    VALUES ('$file_name','$description', '$price', '$category', '$gender','$type', '$more_desc')";
+                    VALUES ('$file_name','$description', '$price', '$category', '$gender','$type','$more_Desc')";
             $result = mysqli_query($con, $query);
 
             header('Location: seller.php');
@@ -81,7 +81,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="seller-styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -101,7 +101,7 @@
     </div>
     <!-- Trigger the modal with a button -->
     <div style = "position: sticky; padding-right: 100px;">
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style = "display: inline-block; margin-bottom:30px">Add Item</button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style = "display: inline-block; margin-bottom:30px; margin-top:70px">Add Item</button>
     </div>
 </div>
 <div style = "height: 1px; background-color: black;margin-left:230px;width:949.6px;margin-bottom:30px;"></div>
@@ -290,37 +290,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-<?php 
-    /*<div class="drop-down">
-                        <label for="category">Category:</label>
-                            <select name="category" id="category">
-                                <?php  
-                                    include('database_con.php'); 
-                                    $categories = mysqli_query($con,"SELECT * FROM category");
-                                    while($c = mysqli_fetch_array($categories)){  
-                                ?>
-                                <option value="<?php echo $c['ID'] ?>"><?php echo $c['Category_Name']?></option>
-                                <?php } ?>
-                            </select>
-                            <label for="Gender">Gender:</label>
-                            <select name="Gender" id="Gender">
-                                <?php 
-                                    $gender = mysqli_query($con, "SELECT * FROM Gender");
-                                    while($g = mysqli_fetch_array($gender)){
-                                ?>
-                                <option value="<?php echo $g['Gender'] ?>"><?php echo $g['Gender']?></option>
-                                <?php } ?>
-                            </select>
-                        <label for="type">Type</label>
-                            <select name="type" id="type">
-                                <?php
-                                    $type = mysqli_query($con,"")
-                                ?>
-                            </select>
-                    </div>*/ ?>
