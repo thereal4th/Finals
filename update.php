@@ -18,6 +18,7 @@
     }
     $ID = $_GET['ID'];
 
+    //must have checking for this
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $ID = $_POST['ID'];
         $item_desc = $_POST['item_desc'];
