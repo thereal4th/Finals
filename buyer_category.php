@@ -1,4 +1,6 @@
 <?php
+//test
+
 include ('functions.php');
 session_start();
 if (!isset($_SESSION['username'])) {
