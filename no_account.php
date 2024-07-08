@@ -45,10 +45,10 @@
                         <p class="title">
                             <?php echo $product['ITEM_DESC']?>
                         </p>
+                        <p class="price">$<?php echo $product['PRICE']?></p>
                         <p class="category">Category: <?php echo $product['CATEGORY']?></p>
                         <p class="gender">For: <?php echo $product['GENDER']?></p>
                         <p class="Ptype">Product type: <?php echo $product['Ptype']?></p>
-                        <p class="price">$<?php echo $product['PRICE']?></p>
                         <div class="add-to-cart">
                         <form method="POST">
                             <input type="hidden" name="product_id" value="<?php echo $product['ID']; ?>">
@@ -58,11 +58,6 @@
                     </div>
                 </div>
                 <?php
-            }
-            ?>
-</div>
-    </body>
-</html>
             }
             ?>
 </div>
