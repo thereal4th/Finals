@@ -60,7 +60,7 @@
 <html>
     <head>
     <title>Online Shopping System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="buyer-styles.css">
     </head>
     <body>
     <div class = "header">
@@ -68,19 +68,55 @@
         <p style = "margin-left: 75px; font-size: 25px;margin-top: 30px;color: #465a27; font-weight: bold;font-family: Times;">Online Shopping System<p>
     </div>
     <div style = "width: 300px">
-        <a href="cart.php"><button class = "shop-button">CART</button></a>
+        <a href="cart.php"><button class = "menu-button">CART</button></a>
         <form method="post">
-            <button name="logout" class="shop-button" onclick="return confirm('Are you sure you want to logout?');">LOGOUT</button>
+            <button name="logout" class="menu-button" onclick="return confirm('Are you sure you want to logout?');">LOGOUT</button>
         </form>
     </div>
 </div>
 <div class = "subheader">
     <div style = "padding-right: 600px; display: inline-block;">
-        <p class = "subheading" style = "display: inline-block;">Buyer <?php echo $_SESSION['username'];?></p>
+        <p class = "subheading" style = "display: inline-block;">Welcome, <?php echo $_SESSION['username'];?>!</p>
     </div>  
     <!-- Trigger the modal with a button -->
 </div>
 <div style = "height: 1px; background-color: black;margin-left:230px;width:949.6px;margin-bottom:30px;"></div>
+
+<div class="sidebar-category">
+    <h3 class = "sidebar-header">Apparels</h3>
+    <div class="apparels">
+            <div class="male">
+                <h4 class = "sidebar-subheader">Male</h4>
+                <a href="buyer_category.php"><p>Brief</p></a>
+                <a href="buyer_category.php?type=Jackets&gender=male"><p>Jackets</p></a>
+                <a href="buyer_category.php?type=Jeans&gender=male"><p>Jeans</p></a>
+                <a href="buyer_category.php?type=T-Shirt&gender=male"><p>T-shirt</p></a>
+            </div>
+            <div class="female">
+                <h4 class = "sidebar-subheader">Female</h4>
+                <a href="buyer_category.php?type=Blouse&gender=female"><p>Blouse</p></a> 
+                <a href="buyer_category.php?type=Dress&gender=female"><p>Dress</p></a> 
+                <a href="buyer_category.php?type=<?php echo urlencode('Maxi Dresses'); ?>&gender=female"><p>Maxi Dresses</p></a> 
+                <a href="buyer_category.php?type=Cardigans&gender=female"><p>Cardigans</p></a> 
+            </div>
+    </div>
+    <h3 class = "sidebar-header">Accessories</h3>
+    <div class="accessory">
+            <div class="male">
+                <h4 class = "sidebar-subheader">Male</h4>
+                <a href="buyer_category.php?type=Belts&gender=male"><p>Belts</p></a>
+                <a href="buyer_category.php?type=Sunglasses&gender=male"><p>Sunglasses</p></a>
+                <a href="buyer_category.php?type=Watch&gender=male"><p>Watch</p></a>
+            </div>
+            <div class="female">
+                <h4 class = "sidebar-subheader">Female</h4>
+                <a href="buyer_category.php?type=Belts&gender=female"><p>Belts</p></a> 
+                <a href="buyer_category.php?type=Necklace&gender=female"><p>Necklace</p></a>
+                <a href="buyer_category.php?type=Sunglasses&gender=female"><p>Sunglasses</p></a>
+            </div>
+    </div>
+</div>
+
 <div class="display-items"> 
         <?php  include ('functions.php');
          $products = getProducts(20)
@@ -97,14 +133,13 @@
                         <p class="title">
                             <a href="buyer_product.php?product_id=<?php echo $product['ID']; ?>" target = "blank"><?php echo $product['ITEM_DESC']?></a>
                         </p>
-                        <p class="category">Category: <?php echo $product['CATEGORY']?></p>
-                        <p class="gender">For: <?php echo $product['GENDER']?></p>
-                        <p class="Ptype">Product type: <?php echo $product['Ptype']?></p>
                         <p class="price">$<?php echo $product['PRICE']?></p>
+                        <p class="category">Category: <?php echo $product['CATEGORY']?></p>
+                        <p class="gender"> <?php echo $product['GENDER']?></p>
                         <div class="add-to-cart">
                         <form method="POST">
                             <input type="hidden" name="product_id" value="<?php echo $product['ID']; ?>">
-                            <input type="submit" name="add" value="Add to cart" onclick="return confirm('Are you sure you want to add <?php echo $product['ITEM_DESC']?> $<?php echo $product['PRICE']?> to your cart?');">
+                            <input class = "add-to-cart-btn"type="submit" name="add" value="Add to cart" onclick="return confirm('Are you sure you want to add <?php echo $product['ITEM_DESC']?> $<?php echo $product['PRICE']?> to your cart?');">
                         </form>
                         </div>
                     </div>
@@ -113,39 +148,6 @@
             }
             ?>
 </div>
-<div class="sidebar-category">
-<div class="apparels">
-        <h4>Apparels</h4>
-        <div class="male">
-            <h4>Male</h4>
-            <a href="buyer_category.php"><p>Brief</p></a>
-            <a href="buyer_category.php?type=Jackets&gender=male"><p>Jackets</p></a>
-            <a href="buyer_category.php?type=Jeans&gender=male"><p>Jeans</p></a>
-            <a href="buyer_category.php?type=T-Shirt&gender=male"><p>T-shirt</p></a>
-        </div>
-        <div class="female">
-            <h4>Female</h4>
-            <a href="buyer_category.php?type=Blouse&gender=female"><p>Blouse</p></a> 
-            <a href="buyer_category.php?type=Dress&gender=female"><p>Dress</p></a> 
-            <a href="buyer_category.php?type=<?php echo urlencode('Maxi Dresses'); ?>&gender=female"><p>Maxi Dresses</p></a> 
-            <a href="buyer_category.php?type=Cardigans&gender=female"><p>Cardigans</p></a> 
-        </div>
-    </div>
-    <div class="accessory">
-    <h4>Accessories</h4>
-        <div class="male">
-            <h4>Male</h4>
-            <a href="buyer_category.php?type=Belts&gender=male"><p>Belts</p></a>
-            <a href="buyer_category.php?type=Sunglasses&gender=male"><p>Sunglasses</p></a>
-            <a href="buyer_category.php?type=Watch&gender=male"><p>Watch</p></a>
-        </div>
-        <div class="female">
-            <h4>Female</h4>
-            <a href="buyer_category.php?type=Belts&gender=female"><p>Belts</p></a> 
-            <a href="buyer_category.php?type=Necklace&gender=female"><p>Necklace</p></a>
-            <a href="buyer_category.php?type=Sunglasses&gender=female"><p>Sunglasses</p></a>
-        </div>
-</div>
-</div>
+
     </body>
 </html>
