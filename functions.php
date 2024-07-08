@@ -65,10 +65,8 @@
     
         $query = "UPDATE products SET ITEM_DESC = ?, PRICE = ?, CATEGORY = ?, GENDER = ?, Ptype = ?, MORE_DESC = ? WHERE ID = ?";
         $stmt = mysqli_stmt_init($con);
-        mysqli_stmt_prepare($stmt, $query);
-    
-        mysqli_stmt_bind_param($stmt, 'ssssssi', $item_desc, $price, $category, $gender, $Ptype, $more_desc, $ID);
-    
+        mysqli_stmt_prepare($stmt, $query);  
+        mysqli_stmt_bind_param($stmt, 'ssssssi', $item_desc, $price, $category, $gender, $Ptype, $more_desc, $ID);   
         mysqli_stmt_execute($stmt);
     }
 
@@ -100,6 +98,7 @@
         return $data;
     }
 
+    //not used yet
     function getProductsbyGender($gender){
         include('database_con.php');
         $query = "SELECT * FROM products WHERE GENDER = ?";
@@ -116,4 +115,48 @@
         }
         return $data;
     }
+
+    function getAddedToCart($USER_ID){
+        include('database_con.php');
+        //buyer_db = cart database
+        $query = "SELECT * FROM buyer_db WHERE USER_ID = ?";
+        $stmt = mysqli_stmt_init($con);
+        if (mysqli_stmt_prepare($stmt, $query)){
+            mysqli_stmt_bind_param($stmt, 'i', $USER_ID);
+            mysqli_stmt_execute($stmt);
+
+            $result = mysqli_stmt_get_result($stmt);
+            $data = array();
+
+            while ($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    /* this one is cool uses JOIN method
+    function getAddedToCart($USER_ID){
+        include('database_con.php');
+    
+        // SQL query with JOIN operation
+        $query = "SELECT * FROM buyer_db 
+                  JOIN user_db ON buyer_db.USER_ID = user_db.USER_ID
+                  WHERE buyer_db.USER_ID = ?";
+    
+        $stmt = mysqli_stmt_init($con);
+        if (mysqli_stmt_prepare($stmt, $query)){
+            // Bind the USER_ID to the placeholder in the query
+            mysqli_stmt_bind_param($stmt, 's', $USER_ID);
+            mysqli_stmt_execute($stmt);
+    
+            $result = mysqli_stmt_get_result($stmt);
+            $data = array();
+    
+            while ($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return $data;
+    } */
 ?>
