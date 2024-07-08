@@ -1,5 +1,4 @@
 <?php
-//test
 
 include ('functions.php');
 session_start();
